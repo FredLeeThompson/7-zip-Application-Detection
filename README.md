@@ -39,4 +39,4 @@ This script was built as part of an ongoing initiative to engineer zero-touch de
 If you have suggestions for optimizing the fallback logic, dealing with stubborn legacy applications, or handling complex `.exe` deployments, feel free to open an issue or submit a pull request!
 
 ---
-*Maintained by Frederick Thompson | LevelCore Solutions*
+*Maintained by Frederick Thompson | LevelCore Technologies*
