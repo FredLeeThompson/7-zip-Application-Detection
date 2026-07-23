@@ -1,4 +1,42 @@
-﻿# Initialize a boolean variable to track whether 7-Zip is found. 
+<#
+.SYNOPSIS
+Evaluates the local system to detect the presence of 7-Zip for Microsoft Intune Win32 App deployments.
+
+.DESCRIPTION
+This script acts as a highly reliable custom detection rule for Microsoft Intune. Relying strictly on MSI product
+codes or default installation paths can result in false negatives if the user installs a 32-bit version on a
+64-bit OS, or if uninstalls leave orphaned registry keys.
+
+This script eliminates those errors by utilizing a multi-layered verification approach:
+
+Queries the System (HKLM), User (HKCU), and 32-bit (WOW6432Node) registry hives to locate the exact installation path.
+
+Verifies the physical presence of "7z.exe" at that targeted location.
+
+Falls back to standard Windows environmental program paths (%ProgramFiles% and %ProgramFiles(x86)%) if registry keys are missing.
+
+If detected, it writes a standard output string (STDOUT), which the Intune Management Extension (IME) reads as a success state to mark the application as "Installed".
+
+.NOTES
+Version:        1.0
+Author:         Frederick Thompson
+Creation Date:  July 2026
+Purpose:        Robust custom detection logic for 7-Zip Win32 deployments.
+Requirements:   Intune Management Extension (IME). No external modules required.
+
+.EXAMPLE
+.\7zip-Detect.ps1
+Runs the detection script. If 7-Zip is installed, it outputs a success message containing the installation path and allows Intune to mark the app as "Installed".
+
+.EXAMPLE
+Get-Help .\7zip-Detect.ps1 -Full
+Displays this comprehensive help documentation.
+#>
+
+[CmdletBinding()]
+param()
+ 
+ # Initialize a boolean variable to track whether 7-Zip is found. 
 # We start by assuming it is not installed ($false).
 $isInstalled = $false
 
